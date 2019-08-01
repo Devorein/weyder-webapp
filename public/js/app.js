@@ -32,7 +32,7 @@ document.querySelector('input[type="button"').addEventListener('click',function(
             showOutputMessage(err);
         })
     }else{
-        showOutputMessage('Please provide an address');
+        showOutputMessage('Please provide a location');
     }
 })
 
