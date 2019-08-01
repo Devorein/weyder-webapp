@@ -14,7 +14,7 @@ document.querySelector('input[type="button"').addEventListener('click',function(
         document.querySelector('input[type="text"').value = ''
         this.value = 'Wait!'
         this.disabled = true
-        fetch(`http://localhost:3000/weather?address=${address}`)
+        fetch(`/weather?address=${address}`)
         .then((res)=>{
             res.json().then(data=>{
                 this.disabled = false

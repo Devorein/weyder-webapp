@@ -6,7 +6,7 @@ const hbs = require('hbs')
 const {geoCode,foreCast} = require('./lib/weather');
 
 const app = express()
-const port = 3000
+const port = process.env.PORT || 3000;
 
 // Define paths for express config
 const publicDirPath = path.join(__dirname,'../public')

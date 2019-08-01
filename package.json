@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "node-sass": "node-sass --watch ./public/css/sass -o ./public/css/output.css"
+    "node-sass": "node-sass --watch ./public/css/sass -o ./public/css/output.css",
+    "start": "node src/index.js"
   },
   "keywords": [],
   "author": "",
