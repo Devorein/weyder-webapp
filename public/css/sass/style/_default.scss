@@ -1,0 +1,175 @@
+@import '../partials/_global';
+@import '../partials/extend';
+
+*{
+    box-sizing: border-box;
+}
+body{
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background-color: #333;
+    font-family: $font_family-def;
+    color: $font_color-def;
+    user-select: none;
+}
+
+a{
+    text-decoration: none;
+    background: $link_bgcolor-def;
+    color: #b3b3b3 !important;
+    padding: 5px;
+}
+
+img{
+    width: 100%;
+}
+
+div#content {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+
+    #link{
+        background: #232323;
+        padding: 5px;
+        border-radius: 5px;
+        display: flex;
+        flex: 0 0 5%;
+        a {
+            display: inline-block;
+            margin-right: 5px;
+            margin-left: 5px;
+            border-radius: 3px;
+            flex: 1 1 0;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background .2s ease-in-out;
+            &:hover{
+                background: rgb(12, 12, 12);
+                transition: background .2s ease-in-out;
+            }
+            &:nth-child(4){
+                margin-right: 0px;
+            }
+        }
+    }
+    
+    #page-content{
+        flex: 0 0 90%;
+        background: #1d1d1d;
+        #weather-data{
+            @extend %center-box;
+            width: 50%;
+            height: 50%;
+            max-width: 750px;
+            flex-direction: column;
+            #inputs{
+                flex: 0 0 10%;
+                display: flex;
+                input[type="text"]{
+                    flex: 0 0 75%;
+                }
+                input[type="button"]{
+                    flex: 0 0 25%;
+                    background: #131313;
+                    outline: none;
+                    border: none;
+                    border-radius: 0px 5px 5px 0px;
+                    cursor: pointer;
+                    color: #a5a5a5;
+                    font-family: Consolas;
+                    font-size: 1.5em;
+                }
+            }
+            #weather-content{
+            flex: 0 0 80%;
+            background: #212121;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;                    
+                div {
+                    flex: 1 1 0;
+                    background: #1b1b1b;
+                    align-items: center;
+                    display: flex;
+                    padding: 10px;
+                    margin-bottom: 5px;
+                    .weather_data-image{
+                        width: 20px;
+                        position: relative;
+                        top: -3px;
+                        background: #313131;
+                        padding: 3px;
+                        box-sizing: content-box;
+                        border-radius: 2px;
+                    }
+                    .weather_data-value{
+                        font-weight: bolder;
+                        width: 50%;
+                        height: 100%;
+                        background: #232323;
+                        border-radius: 5px;
+                        display: flex;
+                        justify-content: center;
+                        text-align: center;
+                    }
+                }
+            }
+        }
+        input[type="text"] {
+            border-radius: 5px;
+            outline: none;
+            border: none;
+            background: #2f2f2f;
+            padding: 5px;
+            font-family: Consolas;
+            font-weight: 500;
+            color: white;
+            text-align: center;
+            font-size: 1.5em;
+        }
+    }
+
+    #footer{
+        flex: 0 0 5%;
+        text-align: center;
+        align-items: center;
+        justify-content: center;
+        display: flex;
+        #makerLink{
+            margin-left: 5px;
+        }
+    }
+}
+
+
+
+div#error {
+    @extend %center;
+    @extend %center-box;
+    flex-direction: column;
+    div {
+        text-align: center;
+        padding: 5px;
+        #redirectPageLink{
+            color: #b3b3b3;
+        }
+    }
+}
+
+#outputMessage{
+    position: absolute;
+    left: 50%;
+    top: 75%;
+    transform: translateX(-50%);
+    width: 50%;
+    background: black;
+    padding: 20px;
+    text-align: center;
+    border-radius: 5px;
+    font-size: 1.2em;
+    font-weight: bolder;
+}

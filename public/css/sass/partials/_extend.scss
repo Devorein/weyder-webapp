@@ -1,0 +1,16 @@
+%center{
+    top: 50%;
+    left: 50%;
+    position: absolute;
+    transform: translate(-50%,-50%);
+}
+%center-hor{
+    margin: 0 auto;
+    width: fit-content;
+}
+%center-box{
+    @extend %center;
+    padding: 10px;
+    background: #272727; 
+    display: flex;
+}
