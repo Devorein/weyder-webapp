@@ -5,7 +5,13 @@ A basic weather web app, that utilizes the darksky and mapbox api to get weather
 Download the github repo 
 
 ```cmd
-cd node navigate/to/src/index.js
+cd src/  
+node index
+```
+or 
+
+```cmd
+npm run dev
 ```
 
 Visit `http://localhost://3000` to use the web app
