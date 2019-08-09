@@ -1,44 +1,49 @@
 const request = require('request');
 
-const {MapBoxObject,DarkSkyObject,buildURL} = require('./builder.js')
+const {DarkSkyObject,LocationIqObject} = require('./builder.js')
 
-const geoCode = (address,callback) => {
-    MapBoxObject.urlComponent.place = address
-    request({'url':buildURL('mapbox'),'json':true},(err,{body:res_body})=>{
-        if(err){
-            callback(err,undefined)
-        }else if(res_body.features.length==0){
-            callback(`Sorry couldn't find anything of name ${res_body.query}`,undefined);
-        }else{
-            let {center:[longitude,latitude],place_name} = res_body.features[0]
-            const geoCodeInfo = {
-                longitude,
-                latitude,
-                place_name
+const geoCode = (address) => {
+    return new Promise((resolve,reject)=>{
+        LocationIqObject.queryStringObj.q = address
+        request({'url':LocationIqObject.buildURL()},(err,response)=>{
+            let data = JSON.parse(response.body)
+            if(err){
+                reject(err)
+            }else if(data.error){
+                reject(`Sorry couldn't find anything of name ${address}`)
+            }else{
+                let {lat:latitude,lon:longitude,display_name:place_name} = data[0]
+                const geoCodeInfo = {
+                    longitude,
+                    latitude,
+                    place_name
+                }
+                resolve(geoCodeInfo)
             }
-            callback(null,geoCodeInfo)
-        }
+        })
     })
 }
 
-const foreCast = ({latitude,longitude,place_name:place},callback)=>{
+const foreCast = ({latitude,longitude,place_name:place})=>{
     DarkSkyObject.urlComponent.lat = latitude
     DarkSkyObject.urlComponent.long = longitude
-    request({'url':buildURL('darksky'), 'json': true},(err, {body:res_body})=>{
-        if(err){
-            console.log(`Error Found!\n${err}`);
-        }else if(res_body.error){
-            console.log(`Server responded with ${res_body.code} ${res_body.error}`);
-        }else{
-            let {summary,temperature,precipProbability:rainChance} = res_body.currently
-            let forecastInfo = {
-                summary,
-                place,
-                temperature:temperature+'°C',
-                rainChance: (rainChance*100).toFixed(2)+'%'
+    return new Promise((resolve,reject)=>{
+        request({'url':DarkSkyObject.buildURL(), 'json': true},(err, {body:res_body})=>{
+            if(err){
+                reject(`Error Found!\n${err}`);
+            }else if(res_body.error){
+                reject(`Server responded with ${res_body.code} ${res_body.error}`);
+            }else{
+                let {summary,temperature,precipProbability:rainChance} = res_body.currently
+                let forecastInfo = {
+                    summary,
+                    place,
+                    temperature:temperature+'°C',
+                    rainChance: (rainChance*100).toFixed(2)+'%'
+                }
+                resolve(forecastInfo)
             }
-            callback(forecastInfo)
-        }
+        })
     })
 }
 

@@ -4,7 +4,7 @@ const express = require('express');
 const {geoCode,foreCast} = require('./lib/weather');
 
 const app = express()
-const port = process.env.PORT || 3000;
+const port = process.env.PORT
 
 // Define paths for express config
 const publicDirPath = path.join(__dirname,'../public')
@@ -13,22 +13,30 @@ const publicDirPath = path.join(__dirname,'../public')
 app.use(express.static(publicDirPath))
 
 
-app.get('/weather',(req,res)=>{
+app.get('/weather',async (req,res)=>{
     if(!req.query.address){
         return res.send({
             error: 'Please provide an address'
         })
     }
-    geoCode(req.query.address,function(err,data){
-        if(err){
-            return res.send({
-                error: err
-            })
-        }
-        foreCast(data,(info)=>{
-            res.send(info)
-        })
-    })
+    try{
+        const geocode = await geoCode(req.query.address)
+        const forecast = await foreCast(geocode)
+        res.send(forecast)
+    }catch(err){
+        console.log(err);
+        res.send({error: err})
+    }
+    // geoCode(req.query.address,function(err,data){
+    //     if(err){
+    //         return res.send({
+    //             error: err
+    //         })
+    //     }
+    //     foreCast(data,(info)=>{
+    //         res.send(info)
+    //     })
+    // })
 })
 
 app.listen(port,()=>{

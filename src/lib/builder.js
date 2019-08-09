@@ -14,8 +14,7 @@ const MapBoxObject = {
         place: ''
     },
     'queryStringObj':{
-        access_token: `pk.eyJ1IjoiZGV2b3JlaW4iLCJhIjoiY2p5cDl6dnByMWQ5bjNjbzN5bGR3N2k5NCJ9.7OJ-5cjirKUMMSqVikx_RA`,
-        'types':['country','region','place'],
+        access_token: process.env.MAPBOX_ACCESS_TOKEN,
         limit: 1,
     },
     'buildURL':function(){
@@ -27,7 +26,7 @@ const DarkSkyObject = {
     'domain': `https://api.darksky.net`,
     'endPoint': `forecast`,
     'urlComponent':{
-        accessToken: `c78453b1245bc385a9f9aea5a9f70109`,
+        accessToken: process.env.DARKSKY_ACCESS_TOKEN,
         lat: 0,
         long: 0,
     },
@@ -40,15 +39,20 @@ const DarkSkyObject = {
     }
 }
 
-const buildURL = function(url){
-    if(url == 'mapbox'){
-        return `${MapBoxObject.domain}/${MapBoxObject.endPoint}/${MapBoxObject.urlComponent.place}.json?${convertObjToQS(MapBoxObject.queryStringObj)}`
-    }else if(url == 'darksky'){
-        return `${DarkSkyObject.domain}/${DarkSkyObject.endPoint}/${DarkSkyObject.urlComponent.accessToken}/${DarkSkyObject.urlComponent.lat},${DarkSkyObject.urlComponent.long}?${convertObjToQS(DarkSkyObject.queryStringObj)}`
+const LocationIqObject = {
+    'domain': `https://us1.locationiq.com`,
+    'endPoint': `v1/search.php`,
+    'queryStringObj':{
+        key: process.env.LOCATIONIQ_ACCESS_TOKEN,
+        q: '',
+        format: `json`
+    },
+    'buildURL':function(){
+        return `${this.domain}/${this.endPoint}?${convertObjToQS(this.queryStringObj)}`
     }
 }
 module.exports = {
     DarkSkyObject,
     MapBoxObject,
-    buildURL: buildURL
+    LocationIqObject
 }
